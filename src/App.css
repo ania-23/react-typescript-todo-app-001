@@ -1,38 +1,101 @@
-.App {
-  text-align: center;
+
+header {
+  display: flex;
+  align-items: center; /* 垂直方向の中央揃え */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  color: #fff;
+  font-style: italic;
+  display: inline-block; /* テキストを横並びにする */
+  margin-right: auto; /* ログインボタンとの間隔を自動的に広げる */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.loginButton,
+.signUpButton {
+  border: none;
+  background-color: #97b1e0;
+  padding:0.8em;
+  margin:0.3em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.login {
+  display: flex;
+  justify-content: flex-end;
+}
+h2{
+  color: #5E5E60;
+  font-size: 1em;
+  margin: 0;
+}
+
+.inProgressDiv, .todoDiv , .doneDiv{
+  background-color:#E9E8EB;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: stretch;
+  margin: 10px;
+  width: 200px;
+  min-height: 100px;
+  padding: 0.5em;
+  border-radius: 0.3em;
+
 }
 
-.App-link {
-  color: #61dafb;
+.todoDiv ul, .inProgressDiv ul, .doneDiv ul {
+  flex-grow: 1; /* 高さを最大限に伸ばす */
+  list-style-type: none; /* リストのマーカーを削除 */
+  padding: 0; /* パディングを削除 */
+}
+.kanban{
+  display: flex;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+body{
+  background-color:cornflowerblue;
+}
+
+.deleteButton{
+border: none;
+background-color: transparent;
+color:darkgray;
+}
+
+li {
+  list-style: none;
+  color:#5E5E60;
+  background-color: #fff;
+  margin: 0.3em;
+  padding: 0.3em;
+  border-radius: 0.3em;
+}
+
+#inputValue{
+  border-color:aquamarine;
+  padding: 0.5em;
+  border: none; /*枠線非表示*/
+  outline: none; /*フォーカス時の枠線非表示*/
+  height: 2em;
+  border-radius: 0.3em;
+}
+
+button[type="submit"]{
+  border: none;
+  padding: 0.5em;
+  background-color: #97b1e0;
+}
+
+.drop-zone::before {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.login-form{
+  /* z-index: 1000;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(255,255,255,0.5) */
+  
 }
