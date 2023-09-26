@@ -1,3 +1,9 @@
+![image](https://github.com/ania-23/react-typescript-todo-app-001/assets/68724692/7c5b2abf-f656-45d6-b476-648c6f03d73a)
+![image](https://github.com/ania-23/react-typescript-todo-app-001/assets/68724692/d258302c-b714-4983-a97e-0ad445833c0d)
+![image](https://github.com/ania-23/react-typescript-todo-app-001/assets/68724692/e2d2595b-29ce-4c8e-ad1e-1e118d5fdecd)
+![image](https://github.com/ania-23/react-typescript-todo-app-001/assets/68724692/c8ca4a05-1dd2-462b-911f-9645f82c0fda)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
