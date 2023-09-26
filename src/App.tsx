@@ -10,6 +10,7 @@ import PrimaryButton from "./components/PrimaryButton";
 import SecondaryButton from "./components/SecondaryButton";
 import TodoForm from "./components/TodoForm";
 import LoginForm from "./components/LoginForm";
+import TodoList from "./components/TodoList";
 
 interface todoType {
   id: number;
@@ -22,18 +23,23 @@ function App() {
   const [todoList, setTodoList] = useState<todoType[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isDroppable, setIsDroppable] = useState(false);
+  const [draggedTodo, setDraggedTodo] = useState<todoType | null>(null); // ドラッグされたTODOアイテムの情報を保持
 
   const [showFormTodo, setShowFormTodo] = useState(false);
-
   const [showFormInProgress, setShowFormInProgress] = useState(false);
   const [showFormDone, setShowFormDone] = useState(false);
-
-  const [draggedTodo, setDraggedTodo] = useState<todoType | null>(null); // ドラッグされたTODOアイテムの情報を保持
 
   const [isLoginFormVisible, setIsLoginFormVisible] = useState(false); // ログインフォームの表示状態
 
   const [isLoggedIn, setIsLoggedIn] = useState(false); // ログイン状態
 
+  // フォームがフォーカスを失ったときのハンドラ
+  const handleFormBlur = () => {
+    console.log("フォーカスが外れた");
+    setShowFormTodo(false);
+    setShowFormInProgress(false);
+    setShowFormDone(false);
+  };
   // ログインボタンをクリックしたときにモーダルを表示
   const handleLoginButtonClick = () => {
     setIsLoginFormVisible(true);
@@ -54,36 +60,6 @@ function App() {
     console.log("SignUp");
   };
 
-  // フォームのref
-  // const formRefTodo = useRef<HTMLDivElement | null>(null);
-  // const formRefInProgress = useRef<HTMLDivElement | null>(null);
-  // const formRefDone = useRef<HTMLDivElement | null>(null);
-  // // ドキュメントクリック時のイベントリスナー
-  // const handleClickOutside = (ev: React.MouseEvent): any => {
-  //   if (
-  //     formRefTodo.current &&
-  //     !formRefTodo.current.contains(ev.target as Node)
-  //   ) {
-  //     console.log("useRefTodo");
-  //     // フォームの外部をクリックした場合、フォームを非表示にする
-  //     // setShowFormInProgress(false);
-  //     // setShowFormDone(false);
-  //     setShowFormTodo(true);
-  //   } else {
-  //     setShowFormTodo(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   // ドキュメント全体にクリックイベントリスナーを追加
-  //   document.addEventListener("click", handleClickOutside as React.FC);
-
-  //   // コンポーネントがアンマウントされたらリスナーを削除
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside as React.FC);
-  //   };
-  // }, []);
-
   // drag itemを持ったとき
   const onDragStart = (e: React.DragEvent<HTMLLIElement>, todo: todoType) => {
     setIsDragging(true);
@@ -103,6 +79,7 @@ function App() {
     if (draggedTodo) {
       console.log("TODOがドロップされました");
       // ドラッグされたTODOが存在する場合
+      // e.Targetでは、divタグでなく、liやbuttonを拾ってくる
       if (e.currentTarget.classList.contains("inProgressDiv")) {
         console.log("着手中に変更になります。");
         handleStatusChange(draggedTodo.id, 1); // statusを1 (着手中) に変更
@@ -137,7 +114,7 @@ function App() {
     }
   };
 
-  // statusを変更する関数
+  // Todoのstatusを変更する関数
   function handleStatusChange(id: number, newStatus: 0 | 1 | 2) {
     const updatedTodoList = todoList.map((todo) => {
       if (todo.id === id) {
@@ -163,7 +140,7 @@ function App() {
   function inputTextAdd(event: React.FormEvent, defautStatus: 0 | 1 | 2) {
     // これを書かないと再レンダリングされる。
     event.preventDefault();
-    console.log("a");
+    console.log("inputTextAdd", inputText, defautStatus);
     if (!inputText) {
       return;
     }
@@ -228,22 +205,30 @@ function App() {
           onDrop={onDrop}
         >
           <h2>未着手</h2>
+          {/* <TodoList
+            onClick={(event: FormEvent) => inputTextAdd(event, 0)}
+            inputText={inputText}
+            setInputText={setInputText}
+            filterStatus={0}
+          /> */}
           <ul>
             {todoList
-              .filter((todo) => !todo.status)
-              .map((todo, index, list) => (
-                <li
-                  key={todo.id}
-                  draggable="true"
-                  onDragStart={(e) => onDragStart(e, todo)}
-                  onDragEnd={onDragEnd}
-                >
-                  {todo.todo}
-                  <SecondaryButton
-                    onClick={() => handleDelete(todo.id)}
-                    text={"×"}
-                  />
-                </li>
+              .filter((todo) => todo.status === 0)
+              .map((todo) => (
+                <>
+                  <li
+                    key={todo.id}
+                    draggable="true"
+                    onDragStart={(e) => onDragStart(e, todo)}
+                    onDragEnd={onDragEnd}
+                  >
+                    {todo.todo}
+                    <SecondaryButton
+                      onClick={() => handleDelete(todo.id)}
+                      text={"×"}
+                    />
+                  </li>
+                </>
               ))}
             <li>
               {showFormTodo ? (
@@ -253,6 +238,7 @@ function App() {
                   onChange={(event: ChangeEvent<HTMLInputElement>) =>
                     handleOnChange(event)
                   }
+                  onBlur={handleFormBlur}
                 />
               ) : (
                 <SecondaryButton
@@ -262,9 +248,6 @@ function App() {
               )}
             </li>
           </ul>
-          {/* <div ref={formRefTodo}> */}
-
-          {/* </div> */}
         </div>
         <div
           className="inProgressDiv drop-zone"
@@ -296,7 +279,6 @@ function App() {
                 </>
               ))}
             <li>
-              {/* <div ref={formRefInProgress}> */}
               {showFormInProgress ? (
                 <TodoForm
                   inputText={inputText}
@@ -304,6 +286,7 @@ function App() {
                   onChange={(event: ChangeEvent<HTMLInputElement>) =>
                     handleOnChange(event)
                   }
+                  onBlur={handleFormBlur}
                 />
               ) : (
                 <SecondaryButton
@@ -311,7 +294,6 @@ function App() {
                   onClick={() => setShowFormInProgress(true)}
                 />
               )}
-              {/* </div> */}
             </li>
           </ul>
         </div>
@@ -353,6 +335,7 @@ function App() {
                   onChange={(event: ChangeEvent<HTMLInputElement>) =>
                     handleOnChange(event)
                   }
+                  onBlur={handleFormBlur}
                 />
               ) : (
                 <SecondaryButton
