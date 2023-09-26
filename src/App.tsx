@@ -137,35 +137,31 @@ function App() {
   }
 
   // TODOリストに追加
-  function inputTextAdd(event: React.FormEvent, defautStatus: 0 | 1 | 2) {
+  function inputTextAdd(event: React.FormEvent, defaultStatus: 0 | 1 | 2) {
     // これを書かないと再レンダリングされる。
     event.preventDefault();
-    console.log("inputTextAdd", inputText, defautStatus);
+    console.log("inputTextAdd", inputText, defaultStatus);
     if (!inputText) {
       return;
     }
 
+    const newTodo: todoType = {
+      id: todoList.length + 1,
+      todo: inputText,
+      status: defaultStatus,
+    };
     setInputText("");
-    switch (defautStatus) {
+    switch (defaultStatus) {
       case 0:
-        setTodoList([
-          ...todoList,
-          {id: todoList.length + 1, todo: inputText, status: 0},
-        ]);
+        setTodoList([...todoList, newTodo]);
         setShowFormTodo(false);
         break;
       case 1:
-        setTodoList([
-          ...todoList,
-          {id: todoList.length + 1, todo: inputText, status: 1},
-        ]);
+        setTodoList([...todoList, newTodo]);
         setShowFormInProgress(false);
         break;
       case 2:
-        setTodoList([
-          ...todoList,
-          {id: todoList.length + 1, todo: inputText, status: 2},
-        ]);
+        setTodoList([...todoList, newTodo]);
         setShowFormDone(false);
         break;
     }

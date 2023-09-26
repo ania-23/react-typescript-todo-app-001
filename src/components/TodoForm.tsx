@@ -35,13 +35,14 @@ const TodoForm: React.FC<Props> = (props) => {
       />
       <button
         type="submit"
-        onClick={(event) => {
-          // フォーカスがフォーム内にある場合のみ処理を実行
-          if (isFocusInsideForm) {
-            onClick(event);
-          }
-        }}
+        // onClick={(event) => {
+        //   // フォーカスがフォーム内にある場合のみ処理を実行
+        //   if (isFocusInsideForm) {
+        //     onClick(event);
+        //   }
+        // }}
         // onFocus={handleFocusInsideForm}
+        onClick={onClick}
         onBlur={handleFocusOutsideForm}
       >
         Add
