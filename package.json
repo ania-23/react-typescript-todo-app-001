@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "cross-env PUBLIC_URL=/react-typescript-todo-app-001 react-scripts build && move build docs",
+    "build": "cross-env PUBLIC_URL=/react-typescript-todo-app-001 react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
