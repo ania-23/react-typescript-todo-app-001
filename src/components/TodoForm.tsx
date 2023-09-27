@@ -1,14 +1,17 @@
-import React, {FormEvent, ChangeEvent, useState} from "react";
+import React, {FormEvent, ChangeEvent, useState, RefObject} from "react";
 
 interface Props {
   inputText: string;
   onClick: (event: FormEvent) => void;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (event: React.FocusEvent<HTMLFormElement>) => void;
+  //   onBlur: (event: React.FocusEvent<HTMLFormElement>) => void;
+  //   ref: RefObject<HTMLFormElement>;
 }
 
 const TodoForm: React.FC<Props> = (props) => {
-  const {inputText, onClick, onChange, onBlur} = props;
+  //   const {inputText, onClick, onChange, onBlur, ref} = props;
+  //   const {inputText, onClick, onChange, onBlur} = props;
+  const {inputText, onClick, onChange} = props;
 
   const [isFocusInsideForm, setIsFocusInsideForm] = useState(false);
 
@@ -26,7 +29,9 @@ const TodoForm: React.FC<Props> = (props) => {
 
   return (
     // <form onBlur={onBlur} onFocus={handleFocusInsideForm}>
-    <form onBlur={onBlur}>
+    // <form onBlur={onBlur} ref={ref}>
+    // <form onBlur={onBlur}>
+    <form>
       <input
         type="text"
         id="inputValue"

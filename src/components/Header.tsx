@@ -1,10 +1,13 @@
 import React, {useState} from "react";
 import LoginForm from "./LoginForm";
 import PrimaryButton from "./PrimaryButton";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 
 const Header: React.FC = () => {
   const [isLoginFormVisible, setIsLoginFormVisible] = useState(false); // ログインフォームの表示状態
   const [isLoggedIn, setIsLoggedIn] = useState(false); // ログイン状態
+
+  const navigate = useNavigate();
 
   // ログインボタンをクリックしたときにモーダルを表示
   const handleLoginButtonClick = () => {
@@ -26,12 +29,15 @@ const Header: React.FC = () => {
     console.log("SignUp");
   };
 
+  const handleSettings = () => {
+    navigate("/settings");
+  };
   return (
     <header>
-      <h1>Trello?</h1>
+      <h1>
+        <Link to={`/`}>Trello?</Link>
+      </h1>
       <div className="login">
-        {/* <PrimaryButton text="Login" />
-      <PrimaryButton text="SignUp" /> */}
         {/** ログインボタンを押下した場合*/}
         {isLoginFormVisible && <LoginForm onLogin={handleLoginSuccess} />}
         {/* ログインしていない場合にログインボタンを表示 */}
@@ -46,6 +52,9 @@ const Header: React.FC = () => {
 
         {/* ログイン状態に応じてログアウトボタンを表示 */}
         {isLoggedIn && <PrimaryButton text="Logout" onClick={handleLogout} />}
+        {isLoggedIn && (
+          <PrimaryButton text="Settings" onClick={handleSettings} />
+        )}
       </div>
     </header>
   );

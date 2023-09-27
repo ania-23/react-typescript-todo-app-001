@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FormEvent, useState} from "react";
+import React, {ChangeEvent, FormEvent, useState, useRef} from "react";
 import "./App.css";
 import SecondaryButton from "./components/SecondaryButton";
 import TodoForm from "./components/TodoForm";
@@ -20,14 +20,6 @@ function App() {
   const [showFormTodo, setShowFormTodo] = useState(false);
   const [showFormInProgress, setShowFormInProgress] = useState(false);
   const [showFormDone, setShowFormDone] = useState(false);
-
-  // フォームがフォーカスを失ったときのハンドラ
-  const handleFormBlur = () => {
-    console.log("フォーカスが外れた");
-    setShowFormTodo(false);
-    setShowFormInProgress(false);
-    setShowFormDone(false);
-  };
 
   // drag itemを持ったとき
   const onDragStart = (e: React.DragEvent<HTMLLIElement>, todo: todoType) => {
@@ -149,12 +141,6 @@ function App() {
           onDrop={onDrop}
         >
           <h2>未着手</h2>
-          {/* <TodoList
-            onClick={(event: FormEvent) => inputTextAdd(event, 0)}
-            inputText={inputText}
-            setInputText={setInputText}
-            filterStatus={0}
-          /> */}
           <ul>
             {todoList
               .filter((todo) => todo.status === 0)
@@ -182,7 +168,8 @@ function App() {
                   onChange={(event: ChangeEvent<HTMLInputElement>) =>
                     handleOnChange(event)
                   }
-                  onBlur={handleFormBlur}
+                  // ref={todoFormTodoRef}
+                  // onBlur={handleFormBlur}
                 />
               ) : (
                 <SecondaryButton
@@ -230,7 +217,8 @@ function App() {
                   onChange={(event: ChangeEvent<HTMLInputElement>) =>
                     handleOnChange(event)
                   }
-                  onBlur={handleFormBlur}
+                  // onBlur={handleFormBlur}
+                  // ref={todoFormInProgressRef}
                 />
               ) : (
                 <SecondaryButton
@@ -271,23 +259,23 @@ function App() {
                 </>
               ))}
             <li>
-              {/* <div ref={formRefDone}> */}
-              {showFormDone ? (
-                <TodoForm
-                  inputText={inputText}
-                  onClick={(event: FormEvent) => inputTextAdd(event, 2)}
-                  onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                    handleOnChange(event)
-                  }
-                  onBlur={handleFormBlur}
-                />
-              ) : (
-                <SecondaryButton
-                  text={"Add a card..."}
-                  onClick={() => setShowFormDone(true)}
-                />
-              )}
-              {/* </div> */}
+              <div>
+                {showFormDone ? (
+                  <TodoForm
+                    inputText={inputText}
+                    onClick={(event: FormEvent) => inputTextAdd(event, 2)}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                      handleOnChange(event)
+                    }
+                    // onBlur={handleFormBlur}
+                  />
+                ) : (
+                  <SecondaryButton
+                    text={"Add a card..."}
+                    onClick={() => setShowFormDone(true)}
+                  />
+                )}
+              </div>
             </li>
           </ul>
         </div>

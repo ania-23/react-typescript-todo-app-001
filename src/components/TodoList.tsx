@@ -43,6 +43,8 @@ const TodoList: React.FC<Props> = (props) => {
   const [showFormInProgress, setShowFormInProgress] = useState(false);
   const [showFormDone, setShowFormDone] = useState(false);
 
+  const todoFormDoneRef = useRef(null);
+
   // フォームがフォーカスを失ったときのハンドラ
   const handleFormBlur = () => {
     setShowFormTodo(false);
@@ -144,7 +146,7 @@ const TodoList: React.FC<Props> = (props) => {
           </li>
         ))}
       <li>
-        {showFormDone ? (
+        {/* {showFormDone ? (
           <TodoForm
             inputText={inputText}
             onClick={onClick}
@@ -152,16 +154,20 @@ const TodoList: React.FC<Props> = (props) => {
               handleOnChange(event)
             }
             onBlur={handleFormBlur}
+            ref={todoFormDoneRef}
           />
         ) : (
           <SecondaryButton
             text={"Add a card..."}
             onClick={() => setShowFormDone(true)}
           />
-        )}
+        )} */}
       </li>
     </ul>
   );
 };
 
 export default TodoList;
+function useRef(arg0: null) {
+  throw new Error("Function not implemented.");
+}
