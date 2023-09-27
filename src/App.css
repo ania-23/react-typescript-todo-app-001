@@ -59,6 +59,8 @@ body{
 border: none;
 background-color: transparent;
 color:darkgray;
+width: 100%;
+text-align: left;
 }
 
 li {

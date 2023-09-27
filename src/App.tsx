@@ -1,16 +1,8 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 import "./App.css";
-import PrimaryButton from "./components/PrimaryButton";
 import SecondaryButton from "./components/SecondaryButton";
 import TodoForm from "./components/TodoForm";
-import LoginForm from "./components/LoginForm";
-import TodoList from "./components/TodoList";
+import Header from "./components/Header";
 
 interface todoType {
   id: number;
@@ -29,35 +21,12 @@ function App() {
   const [showFormInProgress, setShowFormInProgress] = useState(false);
   const [showFormDone, setShowFormDone] = useState(false);
 
-  const [isLoginFormVisible, setIsLoginFormVisible] = useState(false); // ログインフォームの表示状態
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // ログイン状態
-
   // フォームがフォーカスを失ったときのハンドラ
   const handleFormBlur = () => {
     console.log("フォーカスが外れた");
     setShowFormTodo(false);
     setShowFormInProgress(false);
     setShowFormDone(false);
-  };
-  // ログインボタンをクリックしたときにモーダルを表示
-  const handleLoginButtonClick = () => {
-    setIsLoginFormVisible(true);
-  };
-
-  // ログインが成功したときの処理
-  const handleLoginSuccess = () => {
-    setIsLoggedIn(true);
-    setIsLoginFormVisible(false);
-  };
-
-  // ログアウト処理
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
-
-  const handleSignUpButtonClick = () => {
-    console.log("SignUp");
   };
 
   // drag itemを持ったとき
@@ -168,28 +137,7 @@ function App() {
   }
   return (
     <>
-      <header>
-        <h1>Trello?</h1>
-        <div className="login">
-          {/* <PrimaryButton text="Login" />
-          <PrimaryButton text="SignUp" /> */}
-          {/** ログインボタンを押下した場合*/}
-          {isLoginFormVisible && <LoginForm onLogin={handleLoginSuccess} />}
-          {/* ログインしていない場合にログインボタンを表示 */}
-          {!isLoggedIn && (
-            <PrimaryButton text="Login" onClick={handleLoginButtonClick} />
-          )}
-
-          {/* ログインしていない場合にSignUpボタンを表示 */}
-          {!isLoggedIn && (
-            <PrimaryButton text="SignUp" onClick={handleSignUpButtonClick} />
-          )}
-
-          {/* ログイン状態に応じてログアウトボタンを表示 */}
-          {isLoggedIn && <PrimaryButton text="Logout" onClick={handleLogout} />}
-        </div>
-      </header>
-      <div>{/**空 */}</div>
+      <Header />
       <div className="kanban">
         <div
           className="todoDiv drop-zone"

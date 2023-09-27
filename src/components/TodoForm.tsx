@@ -43,7 +43,7 @@ const TodoForm: React.FC<Props> = (props) => {
         // }}
         // onFocus={handleFocusInsideForm}
         onClick={onClick}
-        onBlur={handleFocusOutsideForm}
+        // onBlur={handleFocusOutsideForm}
       >
         Add
       </button>
