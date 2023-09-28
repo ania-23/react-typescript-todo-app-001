@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import LoginForm from "./LoginForm";
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "./atoms/PrimaryButton";
 import {Link, Navigate, useNavigate} from "react-router-dom";
 
 const Header: React.FC = () => {
