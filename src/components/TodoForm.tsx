@@ -1,4 +1,5 @@
 import React, {FormEvent, ChangeEvent, useState, RefObject} from "react";
+import SecondaryButton from "./SecondaryButton";
 
 interface Props {
   inputText: string;
@@ -27,6 +28,7 @@ const TodoForm: React.FC<Props> = (props) => {
     setIsFocusInsideForm(false);
   };
 
+  function handleDelete() {}
   return (
     // <form onBlur={onBlur} onFocus={handleFocusInsideForm}>
     // <form onBlur={onBlur} ref={ref}>
@@ -52,6 +54,7 @@ const TodoForm: React.FC<Props> = (props) => {
       >
         Add
       </button>
+      {/* <SecondaryButton text={"×"} onClick={onClick} /> */}
     </form>
   );
 };

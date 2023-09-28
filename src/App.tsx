@@ -21,6 +21,9 @@ function App() {
   const [showFormInProgress, setShowFormInProgress] = useState(false);
   const [showFormDone, setShowFormDone] = useState(false);
 
+  // useRefのconstがあった
+  // useRefの関数があった
+
   // drag itemを持ったとき
   const onDragStart = (e: React.DragEvent<HTMLLIElement>, todo: todoType) => {
     setIsDragging(true);
@@ -169,7 +172,6 @@ function App() {
                     handleOnChange(event)
                   }
                   // ref={todoFormTodoRef}
-                  // onBlur={handleFormBlur}
                 />
               ) : (
                 <SecondaryButton
@@ -217,7 +219,6 @@ function App() {
                   onChange={(event: ChangeEvent<HTMLInputElement>) =>
                     handleOnChange(event)
                   }
-                  // onBlur={handleFormBlur}
                   // ref={todoFormInProgressRef}
                 />
               ) : (
@@ -267,7 +268,6 @@ function App() {
                     onChange={(event: ChangeEvent<HTMLInputElement>) =>
                       handleOnChange(event)
                     }
-                    // onBlur={handleFormBlur}
                   />
                 ) : (
                   <SecondaryButton
