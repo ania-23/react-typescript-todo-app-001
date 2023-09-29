@@ -30,12 +30,12 @@ const Header: React.FC = () => {
   };
 
   const handleSettings = () => {
-    navigate("/settings");
+    navigate("/react-typescript-todo-app-001/settings");
   };
   return (
     <header>
       <h1>
-        <Link to={`/`}>Trello?</Link>
+        <Link to={`/react-typescript-todo-app-001/`}>Trello?</Link>
       </h1>
       <div className="login">
         {/** ログインボタンを押下した場合*/}

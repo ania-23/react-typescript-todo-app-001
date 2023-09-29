@@ -13,11 +13,11 @@ const root = ReactDOM.createRoot(
 );
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/react-typescript-todo-app-001/",
     element: <App />,
   },
   {
-    path: "/settings",
+    path: "/react-typescript-todo-app-001/settings",
     element: <UserSettings />,
   },
   {
