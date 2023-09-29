@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/react-typescript-todo-app-001/static/css/main.2fd6f757.css",
-    "main.js": "/react-typescript-todo-app-001/static/js/main.dbc5bcb3.js",
+    "main.js": "/react-typescript-todo-app-001/static/js/main.57bc6063.js",
     "static/js/787.06469d7b.chunk.js": "/react-typescript-todo-app-001/static/js/787.06469d7b.chunk.js",
     "index.html": "/react-typescript-todo-app-001/index.html",
     "main.2fd6f757.css.map": "/react-typescript-todo-app-001/static/css/main.2fd6f757.css.map",
-    "main.dbc5bcb3.js.map": "/react-typescript-todo-app-001/static/js/main.dbc5bcb3.js.map",
+    "main.57bc6063.js.map": "/react-typescript-todo-app-001/static/js/main.57bc6063.js.map",
     "787.06469d7b.chunk.js.map": "/react-typescript-todo-app-001/static/js/787.06469d7b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2fd6f757.css",
-    "static/js/main.dbc5bcb3.js"
+    "static/js/main.57bc6063.js"
   ]
 }
