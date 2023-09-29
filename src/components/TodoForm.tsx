@@ -12,12 +12,7 @@ const TodoForm: React.FC<Props> = (props) => {
 
   return (
     <form>
-      <input
-        type="text"
-        id="inputValue"
-        value={inputText}
-        onChange={onChange}
-      />
+      <input type="text" id="inputValue" onChange={onChange} />
       <button type="submit" onClick={onClick}>
         Add
       </button>

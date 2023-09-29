@@ -80,11 +80,10 @@ const DropZoneDiv: React.FC<Props> = (props) => {
     e.preventDefault();
     console.log(e);
     if (draggedTodo) {
-      console.log("TODOがドロップされました");
+      console.log("TODOがドロップされました", e.currentTarget.classList);
       // ドラッグされたTODOが存在する場合
       // e.Targetでは、divタグでなく、liやbuttonを拾ってくる
       if (e.currentTarget.classList.contains("inProgressDiv")) {
-        console.log("着手中に変更になります。");
         handleStatusChange(draggedTodo.id, 1); // statusを1 (着手中) に変更
       }
       if (e.currentTarget.classList.contains("todoDiv")) {
@@ -114,9 +113,19 @@ const DropZoneDiv: React.FC<Props> = (props) => {
     // 状態を更新
     setTodoList(updatedTodoList);
   }
+  function divClassName(status: 0 | 1 | 2) {
+    switch (status) {
+      case 0:
+        return "todoDiv";
+      case 1:
+        return "inProgressDiv";
+      case 2:
+        return "doneDiv";
+    }
+  }
   return (
     <div
-      className="todoDiv drop-zone"
+      className={divClassName(status)}
       onDragEnter={onDragEnter}
       onDragLeave={onDragLeave}
       onDragOver={(e) => {
