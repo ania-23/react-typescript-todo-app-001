@@ -21,7 +21,6 @@ interface Props {
 }
 
 const AddFormAndButton: React.FC<Props> = (props) => {
-  //   const {inputText, setInputText, todoList, setTodoList, onClick, status} =
   const {
     inputText,
     setInputText,
@@ -67,38 +66,85 @@ const AddFormAndButton: React.FC<Props> = (props) => {
     }
   }
   function handleOnChange(event: ChangeEvent<HTMLInputElement>) {
-    // console.log(event.target.value);
     setInputText(event.target.value);
   }
+
+  function renderContent(status: 0 | 1 | 2) {
+    switch (status) {
+      case 0:
+        return (
+          <>
+            {showFormTodo ? (
+              <TodoForm
+                inputText={inputText}
+                onClick={(event: FormEvent) => inputTextAdd(event, status)}
+                onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                  handleOnChange(event)
+                }
+              />
+            ) : (
+              <SecondaryButton
+                text={"Add a card..."}
+                onClick={(e) => {
+                  setShowFormTodo(true);
+                  e.stopPropagation();
+                }}
+              />
+            )}
+          </>
+        );
+      case 1:
+        return (
+          <>
+            {showFormInProgress ? (
+              <TodoForm
+                inputText={inputText}
+                onClick={(event: FormEvent) => inputTextAdd(event, status)}
+                onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                  handleOnChange(event)
+                }
+              />
+            ) : (
+              <SecondaryButton
+                text={"Add a card..."}
+                onClick={(e) => {
+                  setShowFormInProgress(true);
+                  e.stopPropagation();
+                }}
+              />
+            )}
+          </>
+        );
+      case 2:
+        return (
+          <>
+            {showFormDone ? (
+              <TodoForm
+                inputText={inputText}
+                onClick={(event: FormEvent) => inputTextAdd(event, status)}
+                onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                  handleOnChange(event)
+                }
+              />
+            ) : (
+              <SecondaryButton
+                text={"Add a card..."}
+                onClick={(e) => {
+                  setShowFormDone(true);
+                  e.stopPropagation();
+                }}
+              />
+            )}
+          </>
+        );
+      default:
+        return <div>Default content</div>;
+    }
+  }
   return (
-    <div className="AddFormAndButton">
-      {/** ここがDone（完了）のみになっている*/}
-      {showFormDone ? (
-        <TodoForm
-          inputText={inputText}
-          onClick={(event: FormEvent) => inputTextAdd(event, status)}
-          onChange={(event: ChangeEvent<HTMLInputElement>) =>
-            handleOnChange(event)
-          }
-        />
-      ) : (
-        <SecondaryButton
-          text={"Add a card..."}
-          onClick={() => {
-            switch (status) {
-              case 0:
-                setShowFormTodo(true);
-                break;
-              case 1:
-                setShowFormInProgress(true);
-                break;
-              case 2:
-                setShowFormDone(true);
-            }
-          }}
-        />
-      )}
-    </div>
+    <>
+      <div className="AddFormAndButton">{renderContent(status)}</div>
+    </>
   );
 };
 

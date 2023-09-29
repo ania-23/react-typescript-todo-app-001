@@ -44,13 +44,18 @@ function App() {
     const hundleClickOutside = (e: MouseEvent) => {
       if (!el?.contains(e.target as Node)) {
         console.log("soto");
-        console.log(showFormDone, "開いていない");
+        console.log(
+          `完了${showFormDone},未完了${showFormTodo},着手中${showFormInProgress}`
+        );
         if (showFormDone) {
           //true=開いていたら閉じたい
           setShowFormDone(false);
+        }
+        if (showFormInProgress) {
           setShowFormInProgress(false);
+        }
+        if (showFormTodo) {
           setShowFormTodo(false);
-        } else {
         }
       } else {
         console.log("naka");
@@ -65,12 +70,17 @@ function App() {
       //コンポーネントがアンマウント、再レンダリングされたときにクリックイベントを削除
       document.removeEventListener("click", hundleClickOutside);
     };
-  }, [insideRef]);
+  }, [insideRef, showFormDone, showFormInProgress, showFormTodo]);
 
   return (
     <>
       <Header />
-      <div className="kanban" ref={insideRef}>
+      <div
+        className="kanban"
+        ref={insideRef}
+        // onClick={() => setShowFormDone(false)}
+        // onClick={() => console.log("kanban予備")}
+      >
         <DropZoneDiv
           inputText={inputText}
           setInputText={setInputText}
