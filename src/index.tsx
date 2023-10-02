@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: `/react-typescript-todo-app-001/settings:username`,
+    path: `/react-typescript-todo-app-001/settings`,
     element: <UserSettings />,
   },
   {

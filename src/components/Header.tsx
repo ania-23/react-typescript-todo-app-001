@@ -9,6 +9,8 @@ const Header: React.FC = () => {
   const [isSignUpFormVisible, setIsSignUpFormVisible] = useState(false); // サインアップフォームの表示状態
   const [isLoggedIn, setIsLoggedIn] = useState(false); // ログイン状態
 
+  // useEffectでログイン状態をローカルストレージから持ってくる。
+
   const navigate = useNavigate();
 
   // ログインボタンをクリックしたときにモーダルを表示
@@ -40,6 +42,7 @@ const Header: React.FC = () => {
   };
 
   const handleSettings = () => {
+    // パラメータ
     navigate("/react-typescript-todo-app-001/settings");
   };
   return (
