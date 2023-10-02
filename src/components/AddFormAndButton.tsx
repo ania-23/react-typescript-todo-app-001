@@ -39,7 +39,7 @@ const AddFormAndButton: React.FC<Props> = (props) => {
   function inputTextAdd(event: React.FormEvent, defaultStatus: 0 | 1 | 2) {
     // これを書かないと再レンダリングされる。
     event.preventDefault();
-    console.log("inputTextAdd", inputText, defaultStatus);
+    console.log("inputTextAdd", inputText, defaultStatus, event);
     if (!inputText) {
       return;
     }

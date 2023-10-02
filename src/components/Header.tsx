@@ -2,15 +2,18 @@ import React, {useState} from "react";
 import LoginForm from "./LoginForm";
 import PrimaryButton from "./atoms/PrimaryButton";
 import {Link, Navigate, useNavigate} from "react-router-dom";
+import SignUpForm from "./SignUpForm";
 
 const Header: React.FC = () => {
   const [isLoginFormVisible, setIsLoginFormVisible] = useState(false); // ログインフォームの表示状態
+  const [isSignUpFormVisible, setIsSignUpFormVisible] = useState(false); // サインアップフォームの表示状態
   const [isLoggedIn, setIsLoggedIn] = useState(false); // ログイン状態
 
   const navigate = useNavigate();
 
   // ログインボタンをクリックしたときにモーダルを表示
   const handleLoginButtonClick = () => {
+    setIsSignUpFormVisible(false);
     setIsLoginFormVisible(true);
   };
 
@@ -19,6 +22,12 @@ const Header: React.FC = () => {
     setIsLoggedIn(true);
     setIsLoginFormVisible(false);
   };
+  // サインアップが成功したときの処理
+  const handleSignUpSuccess = () => {
+    // そのままログイン
+    setIsLoggedIn(true);
+    setIsSignUpFormVisible(false);
+  };
 
   // ログアウト処理
   const handleLogout = () => {
@@ -26,7 +35,8 @@ const Header: React.FC = () => {
   };
 
   const handleSignUpButtonClick = () => {
-    console.log("SignUp");
+    setIsLoginFormVisible(false);
+    setIsSignUpFormVisible(true);
   };
 
   const handleSettings = () => {
@@ -44,7 +54,8 @@ const Header: React.FC = () => {
         {!isLoggedIn && (
           <PrimaryButton text="Login" onClick={handleLoginButtonClick} />
         )}
-
+        {/** サインアップボタンを押下した場合*/}
+        {isSignUpFormVisible && <SignUpForm onSignUp={handleSignUpSuccess} />}
         {/* ログインしていない場合にSignUpボタンを表示 */}
         {!isLoggedIn && (
           <PrimaryButton text="SignUp" onClick={handleSignUpButtonClick} />

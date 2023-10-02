@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useLocation,
+} from "react-router-dom";
 
 import "./index.css";
 import App from "./App";
@@ -11,13 +15,14 @@ import NotFound from "./NotFound";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 const router = createBrowserRouter([
   {
     path: "/react-typescript-todo-app-001/",
     element: <App />,
   },
   {
-    path: "/react-typescript-todo-app-001/settings",
+    path: `/react-typescript-todo-app-001/settings:username`,
     element: <UserSettings />,
   },
   {
