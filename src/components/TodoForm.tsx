@@ -1,5 +1,6 @@
-import React, {FormEvent, ChangeEvent, useState, RefObject} from "react";
-import SecondaryButton from "./atoms/SecondaryButton";
+import {Button} from "@chakra-ui/react";
+import React, {FormEvent, ChangeEvent} from "react";
+import PrimaryButton from "./atoms/PrimaryButton";
 
 interface Props {
   inputText: string;
@@ -8,14 +9,14 @@ interface Props {
 }
 
 const TodoForm: React.FC<Props> = (props) => {
-  const {inputText, onClick, onChange} = props;
+  const {onClick, onChange} = props;
 
   return (
     <form>
       <input type="text" id="inputValue" onChange={onChange} />
-      <button type="submit" onClick={onClick}>
+      <Button type="submit" onClick={onClick} size="xs">
         Add
-      </button>
+      </Button>
     </form>
   );
 };

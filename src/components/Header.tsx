@@ -1,72 +1,113 @@
 import React, {useState} from "react";
-import LoginForm from "./LoginForm";
 import PrimaryButton from "./atoms/PrimaryButton";
-import {Link, Navigate, useNavigate} from "react-router-dom";
-import SignUpForm from "./SignUpForm";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import {
+  STORAGE_KEY_IS_LOGGEDIN,
+  STORAGE_KEY_LOGIN_USER,
+  useAuth,
+} from "../authAtom";
+import PrimaryButtonOutline from "./atoms/PrimaryButtonOutline";
+import {Heading} from "@chakra-ui/react";
+import {ModalForm} from "../ModalForm";
 
 const Header: React.FC = () => {
-  const [isLoginFormVisible, setIsLoginFormVisible] = useState(false); // ログインフォームの表示状態
-  const [isSignUpFormVisible, setIsSignUpFormVisible] = useState(false); // サインアップフォームの表示状態
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // ログイン状態
+  // const [isLoginFormVisible, setIsLoginFormVisible] = useState(false); // ログインフォームの表示状態
+  // const [isSignUpFormVisible, setIsSignUpFormVisible] = useState(false); // サインアップフォームの表示状態
+  // const [isLoggedIn, setIsLoggedIn] = useState(false); // ログイン状態
+  const {isLoggedIn, login, logout, loginUser, setLoginUser} = useAuth();
 
   // useEffectでログイン状態をローカルストレージから持ってくる。
-
-  const navigate = useNavigate();
-
-  // ログインボタンをクリックしたときにモーダルを表示
-  const handleLoginButtonClick = () => {
-    setIsSignUpFormVisible(false);
-    setIsLoginFormVisible(true);
-  };
+  // useEffect(() => {
+  // Save user data to localStorage whenever it changes
+  // const storedIsLoggedIn = localStorage.getItem(STORAGE_KEY_IS_LOGGEDIN);
+  // if (isLoggedIn) {
+  // const parsedIsLoggedIn = JSON.parse(storedIsLoggedIn);
+  // console.log("ログインしてる");
+  // if (parsedIsLoggedIn) {
+  //   login();
+  //   const storedLoginUser = localStorage.getItem(STORAGE_KEY_LOGIN_USER);
+  //   if (storedLoginUser) {
+  //     const parsedUser: UserData = JSON.parse(storedLoginUser);
+  //     setLoginUser(parsedUser);
+  //   }
+  // } else {
+  //   // logout();
+  // }
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   // Save user data to localStorage whenever it changes
+  //   const storedIsLoggedIn = localStorage.getItem(STORAGE_KEY_IS_LOGGEDIN);
+  //   if (storedIsLoggedIn) {
+  //     const parsedIsLoggedIn = JSON.parse(storedIsLoggedIn);
+  //     if (parsedIsLoggedIn) {
+  //       login();
+  //       const storedLoginUser = localStorage.getItem(STORAGE_KEY_LOGIN_USER);
+  //       if (storedLoginUser) {
+  //         const parsedUser: UserData = JSON.parse(storedLoginUser);
+  //         setLoginUser(parsedUser);
+  //       }
+  //     } else {
+  //       // logout();
+  //     }
+  //   }
+  // }, []);
 
   // ログインが成功したときの処理
   const handleLoginSuccess = () => {
-    setIsLoggedIn(true);
-    setIsLoginFormVisible(false);
+    login();
+    // setIsLoginFormVisible(false);
   };
   // サインアップが成功したときの処理
   const handleSignUpSuccess = () => {
     // そのままログイン
-    setIsLoggedIn(true);
-    setIsSignUpFormVisible(false);
+    login();
+    // setIsSignUpFormVisible(false);
   };
 
   // ログアウト処理
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    localStorage.setItem(STORAGE_KEY_IS_LOGGEDIN, JSON.stringify(false));
+    localStorage.setItem(STORAGE_KEY_LOGIN_USER, JSON.stringify(null));
+    logout();
+    console.log(isLoggedIn);
   };
 
-  const handleSignUpButtonClick = () => {
-    setIsLoginFormVisible(false);
-    setIsSignUpFormVisible(true);
-  };
-
+  const navigate = useNavigate();
   const handleSettings = () => {
     // パラメータ
-    navigate("/react-typescript-todo-app-001/settings");
+    navigate("/settings");
   };
+  const location = useLocation();
+  const isSettingPage =
+    location.pathname === "/react-typescript-todo-app-001/settings";
+
   return (
     <header>
-      <h1>
-        <Link to={`/react-typescript-todo-app-001/`}>Trello?</Link>
-      </h1>
+      <Heading as="h1" size="xl" noOfLines={1}>
+        <Link to={`/`}>Trello?</Link>
+      </Heading>
+
       <div className="login">
-        {/** ログインボタンを押下した場合*/}
-        {isLoginFormVisible && <LoginForm onLogin={handleLoginSuccess} />}
-        {/* ログインしていない場合にログインボタンを表示 */}
-        {!isLoggedIn && (
-          <PrimaryButton text="Login" onClick={handleLoginButtonClick} />
+        {isLoggedIn && (
+          <Heading pr="10px" as="h2" size="xl" noOfLines={1}>
+            This is {loginUser?.username}'s Todo list
+          </Heading>
         )}
-        {/** サインアップボタンを押下した場合*/}
-        {isSignUpFormVisible && <SignUpForm onSignUp={handleSignUpSuccess} />}
-        {/* ログインしていない場合にSignUpボタンを表示 */}
+        {/* ログインしていない場合にログインボタンとサインアップボタンを表示 */}
+        {/* ボタン押下でモーダル表示*/}
         {!isLoggedIn && (
-          <PrimaryButton text="SignUp" onClick={handleSignUpButtonClick} />
+          <ModalForm onSubmit={handleLoginSuccess} text={"Login"} />
+        )}
+        {!isLoggedIn && (
+          <ModalForm onSubmit={handleSignUpSuccess} text={"SignUp"} />
         )}
 
         {/* ログイン状態に応じてログアウトボタンを表示 */}
-        {isLoggedIn && <PrimaryButton text="Logout" onClick={handleLogout} />}
         {isLoggedIn && (
+          <PrimaryButtonOutline text="Logout" onClick={handleLogout} />
+        )}
+        {isLoggedIn && !isSettingPage && (
           <PrimaryButton text="Settings" onClick={handleSettings} />
         )}
       </div>

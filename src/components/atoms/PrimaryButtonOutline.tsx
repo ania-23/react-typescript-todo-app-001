@@ -6,14 +6,14 @@ interface Props {
   onClick: () => void;
 }
 
-const PrimaryButton: React.FC<Props> = (props) => {
+const PrimaryButtonOutline: React.FC<Props> = (props) => {
   const {text, onClick} = props;
 
   return (
-    <Button m="5px" onClick={onClick} colorScheme="teal" variant="solid">
+    <Button m="5px" onClick={onClick} colorScheme="teal" variant="outline">
       {text}
     </Button>
   );
 };
 
-export default PrimaryButton;
+export default PrimaryButtonOutline;

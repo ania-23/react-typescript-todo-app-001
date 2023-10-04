@@ -1,62 +1,33 @@
-import {useAtom, useAtomValue, useSetAtom} from "jotai";
-import {atomWithStorage, RESET} from "jotai/utils";
-import React, {
-  FormEvent,
-  ChangeEvent,
-  useState,
-  useCallback,
-  useEffect,
-} from "react";
+import {useAtom} from "jotai";
+import {atomWithStorage} from "jotai/utils";
+import {ChangeEvent, useState, useEffect} from "react";
+import {STORAGE_KEY_USERS, UserData, useAuth} from "../authAtom";
+import {Input} from "@chakra-ui/input";
+import PrimaryButton from "./atoms/PrimaryButton";
 
 // onLogin プロパティの型アノテーションを追加
 interface SignUpFormProps {
-  onSignUp: () => void;
+  onSubmit: () => void;
+  onClose: () => void;
 }
-
-// 実際ローカルストレージに保管したいデータ
-export interface UserData {
-  username: string;
-  password: string;
-}
-
-// ローカルストレージに保存するキー
-export const STORAGE_KEY = "users";
 
 // Create an atom to store user authentication data
-export const usersAtom = atomWithStorage<UserData[]>(STORAGE_KEY, []);
-export const isLoggedInAtom = atomWithStorage<boolean>("isLoggedIn", false);
-export const loginUserAtom = atomWithStorage<UserData | null>("you", null);
+export const usersAtomStorage = atomWithStorage<UserData[]>(
+  STORAGE_KEY_USERS,
+  []
+);
 
-export const useAuth = () => {
-  return useAtomValue(usersAtom);
-};
-
-export const useAuthMutators = () => {
-  const setAuth = useSetAtom(usersAtom);
-
-  const clearAuth = useCallback(() => {
-    setAuth([]);
-  }, [setAuth]);
-
-  const signUp = useCallback(
-    (userData: UserData) => {
-      setAuth((prevUsers) => [...prevUsers, userData]);
-    },
-    [setAuth]
-  );
-  return {clearAuth, signUp};
-};
-
-const SignUpForm = ({onSignUp}: SignUpFormProps) => {
-  const [users, setUsers] = useAtom(usersAtom); // Use authAtom to get and set user data
-  const [loginUser, setLoginUser] = useAtom(loginUserAtom);
+const SignUpForm = ({onSubmit, onClose}: SignUpFormProps) => {
+  const [users, setUsers] = useAtom(usersAtomStorage); // Use authAtom to get and set user data
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [conPassword, setConPassword] = useState("");
-  const {signUp} = useAuthMutators();
+
+  const {setLoginUser} = useAuth();
+
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("usersAtom initial value:", usersAtom);
-    console.log("STORAGE_KEY:", STORAGE_KEY);
+    console.log("usersAtom initial value:", usersAtomStorage);
+    console.log("STORAGE_KEY:", STORAGE_KEY_USERS);
     setUsername(e.target.value);
   };
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -68,9 +39,10 @@ const SignUpForm = ({onSignUp}: SignUpFormProps) => {
   };
   useEffect(() => {
     // Save user data to localStorage whenever it changes
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-    localStorage.setItem("you", JSON.stringify(loginUser));
-  }, [users, loginUser]);
+    if (!users) {
+      localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(users));
+    }
+  }, [users]);
 
   const handleSubmit = () => console.log("handleSubmit");
 
@@ -80,7 +52,7 @@ const SignUpForm = ({onSignUp}: SignUpFormProps) => {
   const handleSignUp = () => {
     let isValidUserData = true;
     // サインアップのロジックをここに実装する
-    // サインアップが成功したら、onLoginコールバックを呼び出して親コンポーネントに通知する
+    // サインアップが成功したら、onSignUpコールバックを呼び出して親コンポーネントに通知する
 
     // バリデーション
     // username,password,conPasswordの桁数1以上
@@ -109,7 +81,7 @@ const SignUpForm = ({onSignUp}: SignUpFormProps) => {
     if (isValidUserData) {
       //
       // 新しいユーザーオブジェクトを作成
-      const newUser = {username: username, password: password};
+      const newUser = {username: username, password: password, todos: []};
 
       // 現在のユーザー情報をコピーして新しいユーザーを追加
       const updatedUserList = [...users, newUser];
@@ -119,7 +91,8 @@ const SignUpForm = ({onSignUp}: SignUpFormProps) => {
       setLoginUser(newUser);
       handleSubmit();
       // 親コンポーネントでボタン制御をする
-      onSignUp();
+      onSubmit();
+      onClose();
     } else {
       alert("登録エラー");
     }
@@ -127,25 +100,28 @@ const SignUpForm = ({onSignUp}: SignUpFormProps) => {
 
   return (
     <div className="sign-up-form">
-      <input
+      <Input
         type="text"
+        m="5px"
         placeholder="Username"
         value={username}
         onChange={handleUsernameChange}
       />
-      <input
+      <Input
         type="password"
+        m="5px"
         placeholder="Password"
         value={password}
         onChange={handlePasswordChange}
       />
-      <input
+      <Input
         type="password"
+        m="5px"
         placeholder="PasswordForConfirm"
         value={conPassword}
         onChange={handleConPasswordChange}
       />
-      <button onClick={handleSignUp}>SignUp</button>
+      <PrimaryButton onClick={handleSignUp} text={"SignUp"} />
     </div>
   );
 };

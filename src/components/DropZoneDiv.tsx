@@ -1,8 +1,9 @@
-import React, {useEffect, useRef} from "react";
+import React from "react";
 import AddFormAndButton from "./AddFormAndButton";
 import SecondaryButton from "./atoms/SecondaryButton";
 import {todoType} from "./todoType";
 import TodoH2 from "./atoms/TodoH2";
+import {ListItem, UnorderedList} from "@chakra-ui/react";
 
 interface Props {
   inputText: string;
@@ -134,12 +135,12 @@ const DropZoneDiv: React.FC<Props> = (props) => {
       onDrop={onDrop}
     >
       <TodoH2 status={status} />
-      <ul>
+      <UnorderedList ms="0">
         {todoList
           .filter((todo) => todo.status === status)
           .map((todo) => (
             <>
-              <li
+              <ListItem
                 key={todo.id}
                 draggable="true"
                 onDragStart={(e) => onDragStart(e, todo)}
@@ -150,10 +151,10 @@ const DropZoneDiv: React.FC<Props> = (props) => {
                   onClick={() => handleDelete(todo.id)}
                   text={"×"}
                 />
-              </li>
+              </ListItem>
             </>
           ))}
-        <li>
+        <ListItem>
           <AddFormAndButton
             inputText={inputText}
             setInputText={setInputText}
@@ -167,8 +168,8 @@ const DropZoneDiv: React.FC<Props> = (props) => {
             showFormInProgress={showFormInProgress}
             showFormTodo={showFormTodo}
           />
-        </li>
-      </ul>
+        </ListItem>
+      </UnorderedList>
     </div>
   );
 };

@@ -1,3 +1,10 @@
+form {
+  display: flex;
+  flex-direction: column;
+  }
+  button {
+  max-width: max-content;
+  }
 
 header {
   display: flex;
@@ -49,10 +56,6 @@ h2{
 }
 .kanban{
   display: flex;
-}
-
-body{
-  background-color:cornflowerblue;
 }
 
 .deleteButton{

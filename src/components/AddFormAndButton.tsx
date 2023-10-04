@@ -2,6 +2,7 @@ import React, {ChangeEvent, FormEvent, useState} from "react";
 import SecondaryButton from "./atoms/SecondaryButton";
 import TodoForm from "./TodoForm";
 import {todoType} from "./todoType";
+import {Button} from "@chakra-ui/react";
 
 interface Props {
   inputText: string;
@@ -83,13 +84,19 @@ const AddFormAndButton: React.FC<Props> = (props) => {
                 }
               />
             ) : (
-              <SecondaryButton
-                text={"Add a card..."}
+              <Button
+                // text={"Add a card..."}
+                variant="ghost"
+                _hover={{bg: "ffffff"}}
+                color="gray.400"
+                _active={{_active: "none"}}
                 onClick={(e) => {
                   setShowFormTodo(true);
                   e.stopPropagation();
                 }}
-              />
+              >
+                Add a card...
+              </Button>
             )}
           </>
         );
@@ -105,13 +112,19 @@ const AddFormAndButton: React.FC<Props> = (props) => {
                 }
               />
             ) : (
-              <SecondaryButton
-                text={"Add a card..."}
+              <Button
+                // text={"Add a card..."}
+                variant="ghost"
+                _hover={{bg: "ffffff"}}
+                color="gray.400"
+                _active={{_active: "none"}}
                 onClick={(e) => {
                   setShowFormInProgress(true);
                   e.stopPropagation();
                 }}
-              />
+              >
+                Add a card...
+              </Button>
             )}
           </>
         );
@@ -127,13 +140,19 @@ const AddFormAndButton: React.FC<Props> = (props) => {
                 }
               />
             ) : (
-              <SecondaryButton
-                text={"Add a card..."}
+              <Button
+                // text={"Add a card..."}
+                variant="ghost"
+                _hover={{bg: "ffffff"}}
+                color="gray.400"
+                _active={{_active: "none"}}
                 onClick={(e) => {
                   setShowFormDone(true);
                   e.stopPropagation();
                 }}
-              />
+              >
+                Add a card...
+              </Button>
             )}
           </>
         );

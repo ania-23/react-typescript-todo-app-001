@@ -1,35 +1,43 @@
-import React, {FormEvent, ChangeEvent, useState, useEffect} from "react";
-import {STORAGE_KEY, UserData} from "./SignUpForm";
+import {useState, useEffect} from "react";
+import {STORAGE_KEY_USERS, UserData, useAuth} from "../authAtom";
+import {Input} from "@chakra-ui/input";
+import PrimaryButton from "./atoms/PrimaryButton";
 
-// onLogin プロパティの型アノテーションを追加
+// onSubmit プロパティの型アノテーションを追加
 interface LoginFormProps {
-  onLogin: () => void;
+  onSubmit: () => void;
+  onClose: () => void;
 }
 
-const LoginForm = ({onLogin}: LoginFormProps) => {
+const LoginForm = ({onSubmit, onClose}: LoginFormProps) => {
   // ユーザからの入力を受け付ける
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const {setLoginUser} = useAuth();
   const [userData, setUserData] = useState<UserData[]>([]);
 
   useEffect(() => {
     // localStorageから保存されたユーザー認証データを取得
-    const storedUserData = localStorage.getItem(STORAGE_KEY);
-    if (storedUserData) {
-      const parsedUserData: UserData[] = JSON.parse(storedUserData);
-      setUserData(parsedUserData);
+    const storedUsers = localStorage.getItem(STORAGE_KEY_USERS);
+    if (storedUsers) {
+      const parsedUsers: UserData[] = JSON.parse(storedUsers);
+      setUserData(parsedUsers);
     }
   }, []);
 
   const handleLogin = () => {
     // ログインのロジックをここに実装する
     // ログインが成功したら、onLoginコールバックを呼び出して親コンポーネントに通知する
+    // jotaiの更新は親がする
     const foundUser = userData.find(
       (user) => user.username === username && user.password === password
     );
 
     if (foundUser) {
-      onLogin();
+      setLoginUser(foundUser);
+      onSubmit();
+      onClose();
+      console.log("LoginForm");
     } else {
       alert(
         "ユーザー名またはパスワードが違います。未登録の場合はSignUpをしてください"
@@ -39,19 +47,21 @@ const LoginForm = ({onLogin}: LoginFormProps) => {
 
   return (
     <div className="login-form">
-      <input
+      <Input
+        m="5px"
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <input
+      <Input
+        m="5px"
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={handleLogin}>Login</button>
+      <PrimaryButton onClick={handleLogin} text={"Login"} />
     </div>
   );
 };

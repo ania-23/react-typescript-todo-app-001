@@ -1,16 +1,8 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useState,
-  useRef,
-  useEffect,
-} from "react";
+import {useState, useRef, useEffect} from "react";
 import "./App.css";
-import SecondaryButton from "./components/atoms/SecondaryButton";
-import TodoForm from "./components/TodoForm";
 import Header from "./components/Header";
-import AddFormAndButton from "./components/AddFormAndButton";
 import DropZoneDiv from "./components/DropZoneDiv";
+import {Box} from "@chakra-ui/react";
 
 interface todoType {
   id: number;
@@ -72,67 +64,65 @@ function App() {
     };
   }, [insideRef, showFormDone, showFormInProgress, showFormTodo]);
 
+  console.log("App");
   return (
     <>
-      <Header />
-      <div
-        className="kanban"
-        ref={insideRef}
-        // onClick={() => setShowFormDone(false)}
-        // onClick={() => console.log("kanban予備")}
-      >
-        <DropZoneDiv
-          inputText={inputText}
-          setInputText={setInputText}
-          todoList={todoList}
-          setTodoList={setTodoList}
-          status={0}
-          setIsDroppable={setIsDroppable}
-          setIsDragging={setIsDragging}
-          draggedTodo={draggedTodo}
-          setDraggedTodo={setDraggedTodo}
-          showFormInProgress={showFormInProgress}
-          showFormTodo={showFormTodo}
-          showFormDone={showFormDone}
-          setShowFormDone={setShowFormDone}
-          setShowFormInProgress={setShowFormInProgress}
-          setShowFormTodo={setShowFormTodo}
-        />
-        <DropZoneDiv
-          inputText={inputText}
-          setInputText={setInputText}
-          todoList={todoList}
-          setTodoList={setTodoList}
-          status={1}
-          setIsDroppable={setIsDroppable}
-          setIsDragging={setIsDragging}
-          draggedTodo={draggedTodo}
-          setDraggedTodo={setDraggedTodo}
-          setShowFormDone={setShowFormDone}
-          showFormInProgress={showFormInProgress}
-          showFormTodo={showFormTodo}
-          showFormDone={showFormDone}
-          setShowFormInProgress={setShowFormInProgress}
-          setShowFormTodo={setShowFormTodo}
-        />
-        <DropZoneDiv
-          inputText={inputText}
-          setInputText={setInputText}
-          todoList={todoList}
-          setTodoList={setTodoList}
-          status={2}
-          setIsDroppable={setIsDroppable}
-          setIsDragging={setIsDragging}
-          draggedTodo={draggedTodo}
-          setDraggedTodo={setDraggedTodo}
-          showFormInProgress={showFormInProgress}
-          showFormTodo={showFormTodo}
-          showFormDone={showFormDone}
-          setShowFormDone={setShowFormDone}
-          setShowFormInProgress={setShowFormInProgress}
-          setShowFormTodo={setShowFormTodo}
-        />
-      </div>
+      <Box w="100%" h="100vh" bgGradient="linear(to-r, orange.400, teal.200)">
+        <Header />
+        <div className="kanban" ref={insideRef}>
+          <DropZoneDiv
+            inputText={inputText}
+            setInputText={setInputText}
+            todoList={todoList}
+            setTodoList={setTodoList}
+            status={0}
+            setIsDroppable={setIsDroppable}
+            setIsDragging={setIsDragging}
+            draggedTodo={draggedTodo}
+            setDraggedTodo={setDraggedTodo}
+            showFormInProgress={showFormInProgress}
+            showFormTodo={showFormTodo}
+            showFormDone={showFormDone}
+            setShowFormDone={setShowFormDone}
+            setShowFormInProgress={setShowFormInProgress}
+            setShowFormTodo={setShowFormTodo}
+          />
+          <DropZoneDiv
+            inputText={inputText}
+            setInputText={setInputText}
+            todoList={todoList}
+            setTodoList={setTodoList}
+            status={1}
+            setIsDroppable={setIsDroppable}
+            setIsDragging={setIsDragging}
+            draggedTodo={draggedTodo}
+            setDraggedTodo={setDraggedTodo}
+            setShowFormDone={setShowFormDone}
+            showFormInProgress={showFormInProgress}
+            showFormTodo={showFormTodo}
+            showFormDone={showFormDone}
+            setShowFormInProgress={setShowFormInProgress}
+            setShowFormTodo={setShowFormTodo}
+          />
+          <DropZoneDiv
+            inputText={inputText}
+            setInputText={setInputText}
+            todoList={todoList}
+            setTodoList={setTodoList}
+            status={2}
+            setIsDroppable={setIsDroppable}
+            setIsDragging={setIsDragging}
+            draggedTodo={draggedTodo}
+            setDraggedTodo={setDraggedTodo}
+            showFormInProgress={showFormInProgress}
+            showFormTodo={showFormTodo}
+            showFormDone={showFormDone}
+            setShowFormDone={setShowFormDone}
+            setShowFormInProgress={setShowFormInProgress}
+            setShowFormTodo={setShowFormTodo}
+          />
+        </div>
+      </Box>
     </>
   );
 }
