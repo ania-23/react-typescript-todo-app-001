@@ -17,11 +17,19 @@ export const isLoggedInAtom = atomWithStorage(STORAGE_KEY_IS_LOGGEDIN, false); /
 export const loginUserAtom = atomWithStorage(STORAGE_KEY_LOGIN_USER, {
   username: "",
   password: "",
+  todos: [] as todoType[],
 }); // ログインユーザを管理するアトム
+
+// Create an atom to store user authentication data
+export const usersAtomStorage = atomWithStorage<UserData[]>(
+  STORAGE_KEY_USERS,
+  []
+);
 
 export const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const [loginUser, setLoginUser] = useAtom(loginUserAtom);
+  const [users, setUsers] = useAtom(usersAtomStorage); // Use authAtom to get and set user data
 
   const login = () => {
     setIsLoggedIn(true);
@@ -31,5 +39,5 @@ export const useAuth = () => {
     setIsLoggedIn(false);
   };
 
-  return {isLoggedIn, login, logout, loginUser, setLoginUser};
+  return {isLoggedIn, login, logout, loginUser, setLoginUser, users, setUsers};
 };

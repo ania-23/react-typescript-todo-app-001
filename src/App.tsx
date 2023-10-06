@@ -3,6 +3,12 @@ import "./App.css";
 import Header from "./components/Header";
 import DropZoneDiv from "./components/DropZoneDiv";
 import {Box} from "@chakra-ui/react";
+import {
+  STORAGE_KEY_IS_LOGGEDIN,
+  STORAGE_KEY_LOGIN_USER,
+  isLoggedInAtom,
+  useAuth,
+} from "./authAtom";
 
 interface todoType {
   id: number;
@@ -13,9 +19,11 @@ interface todoType {
 function App() {
   const [inputText, setInputText] = useState<string>("");
   const [todoList, setTodoList] = useState<todoType[]>([]);
+  const {loginUser} = useAuth();
   const [isDragging, setIsDragging] = useState(false);
   const [isDroppable, setIsDroppable] = useState(false);
   const [draggedTodo, setDraggedTodo] = useState<todoType | null>(null); // ドラッグされたTODOアイテムの情報を保持
+  const {isLoggedIn} = useAuth();
 
   // Formのオンオフ
   const [showFormTodo, setShowFormTodo] = useState(false);
@@ -35,10 +43,6 @@ function App() {
     //クリックした時に実行する関数
     const hundleClickOutside = (e: MouseEvent) => {
       if (!el?.contains(e.target as Node)) {
-        console.log("soto");
-        console.log(
-          `完了${showFormDone},未完了${showFormTodo},着手中${showFormInProgress}`
-        );
         if (showFormDone) {
           //true=開いていたら閉じたい
           setShowFormDone(false);
@@ -50,7 +54,6 @@ function App() {
           setShowFormTodo(false);
         }
       } else {
-        console.log("naka");
       }
     };
 
@@ -64,7 +67,23 @@ function App() {
     };
   }, [insideRef, showFormDone, showFormInProgress, showFormTodo]);
 
-  console.log("App");
+  // ローカルストレージのTodoを表示する
+  useEffect(() => {
+    // localStorageから保存されたユーザー認証データを取得
+    const storedIsLoggedIn = localStorage.getItem(STORAGE_KEY_IS_LOGGEDIN);
+    if (storedIsLoggedIn) {
+      const parsedIsLoggedIn = JSON.parse(storedIsLoggedIn);
+      if (parsedIsLoggedIn) {
+        const storedLoginUser = localStorage.getItem(STORAGE_KEY_LOGIN_USER);
+        if (storedLoginUser) {
+          const parsedLoginUser = JSON.parse(storedLoginUser);
+          setTodoList(parsedLoginUser.todos);
+        }
+      } else {
+        setTodoList([] as todoType[]);
+      }
+    }
+  }, [isLoggedIn]);
   return (
     <>
       <Box w="100%" h="100vh" bgGradient="linear(to-r, orange.400, teal.200)">

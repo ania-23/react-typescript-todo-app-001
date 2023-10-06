@@ -7,7 +7,6 @@ import {Input} from "@chakra-ui/input";
 
 function UserSettings() {
   const {isLoggedIn, loginUser} = useAuth();
-  console.log("ログイン状態", typeof isLoggedIn, isLoggedIn);
 
   const [newUserName, setNewUserName] = useState("");
 

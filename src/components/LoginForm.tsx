@@ -1,7 +1,8 @@
 import {useState, useEffect} from "react";
-import {STORAGE_KEY_USERS, UserData, useAuth} from "../authAtom";
+import {STORAGE_KEY_USERS, UserData, loginUserAtom, useAuth} from "../authAtom";
 import {Input} from "@chakra-ui/input";
 import PrimaryButton from "./atoms/PrimaryButton";
+import {useTodo} from "../todoAtom";
 
 // onSubmit プロパティの型アノテーションを追加
 interface LoginFormProps {
@@ -13,7 +14,8 @@ const LoginForm = ({onSubmit, onClose}: LoginFormProps) => {
   // ユーザからの入力を受け付ける
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {setLoginUser} = useAuth();
+  const {setLoginUser, loginUser} = useAuth();
+  const {todoList} = useTodo();
   const [userData, setUserData] = useState<UserData[]>([]);
 
   useEffect(() => {
@@ -21,6 +23,7 @@ const LoginForm = ({onSubmit, onClose}: LoginFormProps) => {
     const storedUsers = localStorage.getItem(STORAGE_KEY_USERS);
     if (storedUsers) {
       const parsedUsers: UserData[] = JSON.parse(storedUsers);
+
       setUserData(parsedUsers);
     }
   }, []);
@@ -37,7 +40,6 @@ const LoginForm = ({onSubmit, onClose}: LoginFormProps) => {
       setLoginUser(foundUser);
       onSubmit();
       onClose();
-      console.log("LoginForm");
     } else {
       alert(
         "ユーザー名またはパスワードが違います。未登録の場合はSignUpをしてください"

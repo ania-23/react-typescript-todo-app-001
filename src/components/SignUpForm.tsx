@@ -4,6 +4,7 @@ import {ChangeEvent, useState, useEffect} from "react";
 import {STORAGE_KEY_USERS, UserData, useAuth} from "../authAtom";
 import {Input} from "@chakra-ui/input";
 import PrimaryButton from "./atoms/PrimaryButton";
+import {todoType} from "./todoType";
 
 // onLogin プロパティの型アノテーションを追加
 interface SignUpFormProps {
@@ -11,22 +12,14 @@ interface SignUpFormProps {
   onClose: () => void;
 }
 
-// Create an atom to store user authentication data
-export const usersAtomStorage = atomWithStorage<UserData[]>(
-  STORAGE_KEY_USERS,
-  []
-);
-
 const SignUpForm = ({onSubmit, onClose}: SignUpFormProps) => {
-  const [users, setUsers] = useAtom(usersAtomStorage); // Use authAtom to get and set user data
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [conPassword, setConPassword] = useState("");
 
-  const {setLoginUser} = useAuth();
+  const {setLoginUser, users, setUsers} = useAuth();
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("usersAtom initial value:", usersAtomStorage);
     console.log("STORAGE_KEY:", STORAGE_KEY_USERS);
     setUsername(e.target.value);
   };
@@ -79,9 +72,19 @@ const SignUpForm = ({onSubmit, onClose}: SignUpFormProps) => {
     }
 
     if (isValidUserData) {
-      //
+      // 表示テスト用Todos
+      const displayTestTodos: todoType[] = [
+        {id: 1, todo: "テスト1", status: 0},
+        {id: 2, todo: "テスト3", status: 1},
+        {id: 3, todo: "テスト3", status: 2},
+      ];
       // 新しいユーザーオブジェクトを作成
-      const newUser = {username: username, password: password, todos: []};
+      // const newUser = {username: username, password: password, todos: []};
+      const newUser = {
+        username: username,
+        password: password,
+        todos: displayTestTodos,
+      };
 
       // 現在のユーザー情報をコピーして新しいユーザーを追加
       const updatedUserList = [...users, newUser];

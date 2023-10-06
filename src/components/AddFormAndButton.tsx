@@ -1,8 +1,16 @@
-import React, {ChangeEvent, FormEvent, useState} from "react";
+import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import SecondaryButton from "./atoms/SecondaryButton";
 import TodoForm from "./TodoForm";
 import {todoType} from "./todoType";
 import {Button} from "@chakra-ui/react";
+import {
+  STORAGE_KEY_USERS,
+  STORAGE_KEY_LOGIN_USER,
+  UserData,
+  useAuth,
+  STORAGE_KEY_IS_LOGGEDIN,
+} from "../authAtom";
+import {log} from "console";
 
 interface Props {
   inputText: string;
@@ -36,6 +44,42 @@ const AddFormAndButton: React.FC<Props> = (props) => {
     showFormTodo,
   } = props;
 
+  const {loginUser, setLoginUser, users, setUsers, isLoggedIn} = useAuth();
+  const [isLoggedInState, setIsLoggedInState] = useState();
+
+  // 画面上のTodoList管理
+  const [nowTodoList, setNowTodoList] = useState<todoType[]>([]);
+
+  useEffect(() => {
+    // localStorageから保存されたユーザー認証データを取得
+    const storedUsers = localStorage.getItem(STORAGE_KEY_USERS);
+    const storedUser = localStorage.getItem(STORAGE_KEY_LOGIN_USER);
+    const storedIsLoggedIn = localStorage.getItem(STORAGE_KEY_IS_LOGGEDIN);
+
+    if (storedIsLoggedIn) {
+      const parsedIsLoggedIn = JSON.parse(storedIsLoggedIn);
+      setIsLoggedInState(parsedIsLoggedIn);
+
+      if (parsedIsLoggedIn && storedUser && storedUsers) {
+        const parsedUser = JSON.parse(storedUser);
+        const parsedUsers = JSON.parse(storedUsers);
+        // ログインしていればparsedUserがnullなことがない
+        console.log("user上書き？", loginUser);
+
+        // ログインしたままリロードすると、jotaiのisLoggedInとユーザがfalseなのに、ユーザが上書きされる
+        if (isLoggedIn) {
+          setUsers((prevArray) =>
+            prevArray.map((item, i) =>
+              item.username === parsedUser.username ? loginUser : item
+            )
+          );
+        }
+      }
+    }
+    setNowTodoList(todoList);
+    // console.log(loginUser);
+  }, [todoList, loginUser, nowTodoList]);
+  // setNewLoginUser(newUserAndTodo);
   // TODOリストに追加
   function inputTextAdd(event: React.FormEvent, defaultStatus: 0 | 1 | 2) {
     // これを書かないと再レンダリングされる。
@@ -54,14 +98,47 @@ const AddFormAndButton: React.FC<Props> = (props) => {
     switch (defaultStatus) {
       case 0:
         setTodoList([...todoList, newTodo]);
+        console.log(isLoggedInState, todoList);
+
+        if (isLoggedInState) {
+          setLoginUser({
+            username: loginUser.username,
+            password: loginUser.password,
+            todos: [...todoList, newTodo],
+          });
+        }
+
         setShowFormTodo(false);
         break;
       case 1:
         setTodoList([...todoList, newTodo]);
+        console.log(isLoggedInState, todoList);
+        if (isLoggedInState) {
+          setLoginUser({
+            username: loginUser.username,
+            password: loginUser.password,
+            todos: [...todoList, newTodo],
+          });
+        }
         setShowFormInProgress(false);
         break;
       case 2:
         setTodoList([...todoList, newTodo]);
+        if (isLoggedInState) {
+          setLoginUser({
+            username: loginUser.username,
+            password: loginUser.password,
+            todos: [...todoList, newTodo],
+          });
+          console.log(todoList, nowTodoList);
+          console.log("user上書き？");
+
+          setUsers((prevUser) =>
+            prevUser.map((item, i) =>
+              item.username === loginUser.username ? loginUser : item
+            )
+          );
+        }
         setShowFormDone(false);
         break;
     }
