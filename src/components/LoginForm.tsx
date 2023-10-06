@@ -1,8 +1,7 @@
 import {useState, useEffect} from "react";
-import {STORAGE_KEY_USERS, UserData, loginUserAtom, useAuth} from "../authAtom";
+import {STORAGE_KEY_USERS, UserData, useAuth} from "../authAtom";
 import {Input} from "@chakra-ui/input";
 import PrimaryButton from "./atoms/PrimaryButton";
-import {useTodo} from "../todoAtom";
 
 // onSubmit プロパティの型アノテーションを追加
 interface LoginFormProps {
@@ -14,8 +13,7 @@ const LoginForm = ({onSubmit, onClose}: LoginFormProps) => {
   // ユーザからの入力を受け付ける
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {setLoginUser, loginUser} = useAuth();
-  const {todoList} = useTodo();
+  const {setLoginUser} = useAuth();
   const [userData, setUserData] = useState<UserData[]>([]);
 
   useEffect(() => {

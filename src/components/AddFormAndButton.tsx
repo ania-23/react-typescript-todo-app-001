@@ -1,16 +1,13 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
-import SecondaryButton from "./atoms/SecondaryButton";
 import TodoForm from "./TodoForm";
 import {todoType} from "./todoType";
 import {Button} from "@chakra-ui/react";
 import {
   STORAGE_KEY_USERS,
   STORAGE_KEY_LOGIN_USER,
-  UserData,
   useAuth,
   STORAGE_KEY_IS_LOGGEDIN,
 } from "../authAtom";
-import {log} from "console";
 
 interface Props {
   inputText: string;
@@ -44,7 +41,7 @@ const AddFormAndButton: React.FC<Props> = (props) => {
     showFormTodo,
   } = props;
 
-  const {loginUser, setLoginUser, users, setUsers, isLoggedIn} = useAuth();
+  const {loginUser, setLoginUser, setUsers, isLoggedIn} = useAuth();
   const [isLoggedInState, setIsLoggedInState] = useState();
 
   // 画面上のTodoList管理
@@ -62,14 +59,13 @@ const AddFormAndButton: React.FC<Props> = (props) => {
 
       if (parsedIsLoggedIn && storedUser && storedUsers) {
         const parsedUser = JSON.parse(storedUser);
-        const parsedUsers = JSON.parse(storedUsers);
         // ログインしていればparsedUserがnullなことがない
         console.log("user上書き？", loginUser);
 
         // ログインしたままリロードすると、jotaiのisLoggedInとユーザがfalseなのに、ユーザが上書きされる
         if (isLoggedIn) {
           setUsers((prevArray) =>
-            prevArray.map((item, i) =>
+            prevArray.map((item) =>
               item.username === parsedUser.username ? loginUser : item
             )
           );
@@ -134,7 +130,7 @@ const AddFormAndButton: React.FC<Props> = (props) => {
           console.log("user上書き？");
 
           setUsers((prevUser) =>
-            prevUser.map((item, i) =>
+            prevUser.map((item) =>
               item.username === loginUser.username ? loginUser : item
             )
           );

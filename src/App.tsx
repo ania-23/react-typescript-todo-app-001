@@ -6,7 +6,6 @@ import {Box} from "@chakra-ui/react";
 import {
   STORAGE_KEY_IS_LOGGEDIN,
   STORAGE_KEY_LOGIN_USER,
-  isLoggedInAtom,
   useAuth,
 } from "./authAtom";
 
@@ -19,7 +18,6 @@ interface todoType {
 function App() {
   const [inputText, setInputText] = useState<string>("");
   const [todoList, setTodoList] = useState<todoType[]>([]);
-  const {loginUser} = useAuth();
   const [isDragging, setIsDragging] = useState(false);
   const [isDroppable, setIsDroppable] = useState(false);
   const [draggedTodo, setDraggedTodo] = useState<todoType | null>(null); // ドラッグされたTODOアイテムの情報を保持

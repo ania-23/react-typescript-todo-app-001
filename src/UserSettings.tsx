@@ -1,14 +1,11 @@
 import Header from "./components/Header";
 import {Navigate} from "react-router";
 import {useAuth} from "./authAtom";
-import {useState} from "react";
 import {Box} from "@chakra-ui/react";
 import {Input} from "@chakra-ui/input";
 
 function UserSettings() {
   const {isLoggedIn, loginUser} = useAuth();
-
-  const [newUserName, setNewUserName] = useState("");
 
   function handleUsernameChange() {}
   if (!isLoggedIn) {

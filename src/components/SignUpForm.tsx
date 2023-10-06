@@ -1,10 +1,7 @@
-import {useAtom} from "jotai";
-import {atomWithStorage} from "jotai/utils";
 import {ChangeEvent, useState, useEffect} from "react";
-import {STORAGE_KEY_USERS, UserData, useAuth} from "../authAtom";
+import {STORAGE_KEY_USERS, useAuth} from "../authAtom";
 import {Input} from "@chakra-ui/input";
 import PrimaryButton from "./atoms/PrimaryButton";
-import {todoType} from "./todoType";
 
 // onLogin プロパティの型アノテーションを追加
 interface SignUpFormProps {
@@ -73,18 +70,18 @@ const SignUpForm = ({onSubmit, onClose}: SignUpFormProps) => {
 
     if (isValidUserData) {
       // 表示テスト用Todos
-      const displayTestTodos: todoType[] = [
-        {id: 1, todo: "テスト1", status: 0},
-        {id: 2, todo: "テスト3", status: 1},
-        {id: 3, todo: "テスト3", status: 2},
-      ];
+      // const displayTestTodos: todoType[] = [
+      //   {id: 1, todo: "テスト1", status: 0},
+      //   {id: 2, todo: "テスト3", status: 1},
+      //   {id: 3, todo: "テスト3", status: 2},
+      // ];
+      // const newUser = {
+      //   username: username,
+      //   password: password,
+      //   todos: displayTestTodos,
+      // };
       // 新しいユーザーオブジェクトを作成
-      // const newUser = {username: username, password: password, todos: []};
-      const newUser = {
-        username: username,
-        password: password,
-        todos: displayTestTodos,
-      };
+      const newUser = {username: username, password: password, todos: []};
 
       // 現在のユーザー情報をコピーして新しいユーザーを追加
       const updatedUserList = [...users, newUser];

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import PrimaryButton from "./atoms/PrimaryButton";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {
@@ -11,47 +11,7 @@ import {Heading} from "@chakra-ui/react";
 import {ModalForm} from "../ModalForm";
 
 const Header: React.FC = () => {
-  // const [isLoginFormVisible, setIsLoginFormVisible] = useState(false); // ログインフォームの表示状態
-  // const [isSignUpFormVisible, setIsSignUpFormVisible] = useState(false); // サインアップフォームの表示状態
-  // const [isLoggedIn, setIsLoggedIn] = useState(false); // ログイン状態
-  const {isLoggedIn, login, logout, loginUser, setLoginUser} = useAuth();
-
-  // useEffectでログイン状態をローカルストレージから持ってくる。
-  // useEffect(() => {
-  // Save user data to localStorage whenever it changes
-  // const storedIsLoggedIn = localStorage.getItem(STORAGE_KEY_IS_LOGGEDIN);
-  // if (isLoggedIn) {
-  // const parsedIsLoggedIn = JSON.parse(storedIsLoggedIn);
-  // console.log("ログインしてる");
-  // if (parsedIsLoggedIn) {
-  //   login();
-  //   const storedLoginUser = localStorage.getItem(STORAGE_KEY_LOGIN_USER);
-  //   if (storedLoginUser) {
-  //     const parsedUser: UserData = JSON.parse(storedLoginUser);
-  //     setLoginUser(parsedUser);
-  //   }
-  // } else {
-  //   // logout();
-  // }
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   // Save user data to localStorage whenever it changes
-  //   const storedIsLoggedIn = localStorage.getItem(STORAGE_KEY_IS_LOGGEDIN);
-  //   if (storedIsLoggedIn) {
-  //     const parsedIsLoggedIn = JSON.parse(storedIsLoggedIn);
-  //     if (parsedIsLoggedIn) {
-  //       login();
-  //       const storedLoginUser = localStorage.getItem(STORAGE_KEY_LOGIN_USER);
-  //       if (storedLoginUser) {
-  //         const parsedUser: UserData = JSON.parse(storedLoginUser);
-  //         setLoginUser(parsedUser);
-  //       }
-  //     } else {
-  //       // logout();
-  //     }
-  //   }
-  // }, []);
+  const {isLoggedIn, login, logout, loginUser} = useAuth();
 
   // ログインが成功したときの処理
   const handleLoginSuccess = () => {
