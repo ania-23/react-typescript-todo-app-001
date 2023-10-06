@@ -30,7 +30,6 @@ const Header: React.FC = () => {
     localStorage.setItem(STORAGE_KEY_IS_LOGGEDIN, JSON.stringify(false));
     localStorage.setItem(STORAGE_KEY_LOGIN_USER, JSON.stringify(null));
     logout();
-    console.log(isLoggedIn);
   };
 
   const navigate = useNavigate();

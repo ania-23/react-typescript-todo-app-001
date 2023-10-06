@@ -49,7 +49,6 @@ const DropZoneDiv: React.FC<Props> = (props) => {
    */
   //   /* Itemがdrag zoneに入ったとき */
   const onDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
-    // console.log("on drag enter", e);
     if (e.currentTarget.id === "drop-zone") {
       setIsDroppable(true);
     }
@@ -58,7 +57,6 @@ const DropZoneDiv: React.FC<Props> = (props) => {
   /* Itemがdrag zoneから出たとき */
   const onDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
     // 放しても実行される
-    // console.log("on drag leave", e);
     if (e.currentTarget.className === "drop-zone") {
       setIsDroppable(false);
     }
@@ -79,9 +77,7 @@ const DropZoneDiv: React.FC<Props> = (props) => {
   // drop zoneにドロップされたとき
   const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    console.log(e);
     if (draggedTodo) {
-      console.log("TODOがドロップされました", e.currentTarget.classList);
       // ドラッグされたTODOが存在する場合
       // e.Targetでは、divタグでなく、liやbuttonを拾ってくる
       if (e.currentTarget.classList.contains("inProgressDiv")) {
@@ -94,8 +90,6 @@ const DropZoneDiv: React.FC<Props> = (props) => {
         handleStatusChange(draggedTodo.id, 2); // statusを2 (完了) に変更
       }
     }
-
-    console.log(todoList);
   };
   // Todoのstatusを変更する関数
   function handleStatusChange(id: number, newStatus: 0 | 1 | 2) {

@@ -60,8 +60,6 @@ const AddFormAndButton: React.FC<Props> = (props) => {
       if (parsedIsLoggedIn && storedUser && storedUsers) {
         const parsedUser = JSON.parse(storedUser);
         // ログインしていればparsedUserがnullなことがない
-        console.log("user上書き？", loginUser);
-
         // ログインしたままリロードすると、jotaiのisLoggedInとユーザがfalseなのに、ユーザが上書きされる
         if (isLoggedIn) {
           setUsers((prevArray) =>
@@ -73,14 +71,12 @@ const AddFormAndButton: React.FC<Props> = (props) => {
       }
     }
     setNowTodoList(todoList);
-    // console.log(loginUser);
   }, [todoList, loginUser, nowTodoList]);
   // setNewLoginUser(newUserAndTodo);
   // TODOリストに追加
   function inputTextAdd(event: React.FormEvent, defaultStatus: 0 | 1 | 2) {
     // これを書かないと再レンダリングされる。
     event.preventDefault();
-    console.log("inputTextAdd", inputText, defaultStatus, event);
     if (!inputText) {
       return;
     }
@@ -94,7 +90,6 @@ const AddFormAndButton: React.FC<Props> = (props) => {
     switch (defaultStatus) {
       case 0:
         setTodoList([...todoList, newTodo]);
-        console.log(isLoggedInState, todoList);
 
         if (isLoggedInState) {
           setLoginUser({
@@ -108,7 +103,6 @@ const AddFormAndButton: React.FC<Props> = (props) => {
         break;
       case 1:
         setTodoList([...todoList, newTodo]);
-        console.log(isLoggedInState, todoList);
         if (isLoggedInState) {
           setLoginUser({
             username: loginUser.username,
@@ -126,8 +120,6 @@ const AddFormAndButton: React.FC<Props> = (props) => {
             password: loginUser.password,
             todos: [...todoList, newTodo],
           });
-          console.log(todoList, nowTodoList);
-          console.log("user上書き？");
 
           setUsers((prevUser) =>
             prevUser.map((item) =>
