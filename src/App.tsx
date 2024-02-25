@@ -8,12 +8,7 @@ import {
   STORAGE_KEY_LOGIN_USER,
   useAuth,
 } from "./authAtom";
-
-interface todoType {
-  id: number;
-  todo: string;
-  status: 0 | 1 | 2;
-}
+import {todoType} from "./components/todoType";
 
 function App() {
   const [inputText, setInputText] = useState<string>("");
